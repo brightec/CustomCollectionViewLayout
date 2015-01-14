@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6254" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="CollectionViewController" customModule="CustomCollectionLayout" customModuleProvider="target">
+            <connections>
+                <outlet property="collectionView" destination="IGm-uP-jnG" id="dRO-Et-75h"/>
+                <outlet property="view" destination="iN0-l3-epB" id="K0q-Z3-X32"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" directionalLockEnabled="YES" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="IGm-uP-jnG">
+                    <rect key="frame" x="0.0" y="64" width="320" height="504"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <collectionViewLayout key="collectionViewLayout" id="FQE-rR-b0n" customClass="CustomCollectionViewLayout" customModule="CustomCollectionLayout" customModuleProvider="target"/>
+                    <connections>
+                        <outlet property="dataSource" destination="-1" id="nvK-Oa-WDw"/>
+                        <outlet property="delegate" destination="-1" id="aTv-YE-xBp"/>
+                    </connections>
+                </collectionView>
+                <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rUY-nV-0BO">
+                    <rect key="frame" x="0.0" y="20" width="320" height="44"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <color key="barTintColor" red="0.55294117649999996" green="0.85490196080000003" blue="0.20000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <textAttributes key="titleTextAttributes">
+                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    </textAttributes>
+                    <items>
+                        <navigationItem title="Custom Collection Layout | Brightec" id="6rm-jF-nzk"/>
+                    </items>
+                </navigationBar>
+            </subviews>
+            <color key="backgroundColor" red="0.49658589853003732" green="0.86006560773480667" blue="0.15115732096539047" alpha="1" colorSpace="calibratedRGB"/>
+            <constraints>
+                <constraint firstItem="rUY-nV-0BO" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="JUy-eT-jK3"/>
+                <constraint firstAttribute="trailing" secondItem="rUY-nV-0BO" secondAttribute="trailing" id="VMr-dp-180"/>
+                <constraint firstItem="IGm-uP-jnG" firstAttribute="top" secondItem="rUY-nV-0BO" secondAttribute="bottom" id="bQz-iq-Sea"/>
+                <constraint firstItem="IGm-uP-jnG" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="cIa-sB-BXb"/>
+                <constraint firstAttribute="bottom" secondItem="IGm-uP-jnG" secondAttribute="bottom" id="kx6-Qr-W5m"/>
+                <constraint firstAttribute="trailing" secondItem="IGm-uP-jnG" secondAttribute="trailing" id="ts2-SS-Esr"/>
+                <constraint firstItem="rUY-nV-0BO" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="20" id="vlp-9W-EUs"/>
+            </constraints>
+            <nil key="simulatedStatusBarMetrics"/>
+            <point key="canvasLocation" x="296" y="376"/>
+        </view>
+    </objects>
+    <simulatedMetricsContainer key="defaultSimulatedMetrics">
+        <simulatedStatusBarMetrics key="statusBar"/>
+        <simulatedOrientationMetrics key="orientation"/>
+        <simulatedScreenMetrics key="destination" type="retina4"/>
+    </simulatedMetricsContainer>
+</document>

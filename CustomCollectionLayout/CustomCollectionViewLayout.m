@@ -180,7 +180,7 @@
         default:
             break;
     }
-    CGSize size = [text sizeWithAttributes: @{NSFontAttributeName:[UIFont numercoFontRegularWithSize:15]}];
+    CGSize size = [text sizeWithAttributes: @{NSFontAttributeName:[UIFont fontWithName:@"HelveticaNeue" size:15]}];
     if (columnIndex == 0) {
         size.width += 12; // In our design the first column should be the widest one
     }
