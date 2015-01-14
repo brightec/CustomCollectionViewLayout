@@ -2,6 +2,8 @@ CustomCollectionViewLayout
 ==========================
 
 Custom layout for a collection view using horizontal and vertical scrolling with sticky rows and columns
+Written in Swift and Objective-C.
+Full example added in Swift.
 
 ![alt tag](https://github.com/brightec/CustomCollectionViewLayout/blob/master/customCollectionLayoutDemo.gif)
 
