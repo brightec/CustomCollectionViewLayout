@@ -102,7 +102,7 @@ class CustomCollectionViewLayout: UICollectionViewLayout {
             self.itemAttributes .addObject(sectionAttributes)
         }
         
-        var attributes : UICollectionViewLayoutAttributes = self.itemAttributes.lastObject?.lastObject as UICollectionViewLayoutAttributes
+        var attributes : UICollectionViewLayoutAttributes = self.itemAttributes.lastObject?.lastObject as! UICollectionViewLayoutAttributes
         contentHeight = attributes.frame.origin.y + attributes.frame.size.height
         self.contentSize = CGSizeMake(contentWidth, contentHeight)
     }
@@ -112,20 +112,27 @@ class CustomCollectionViewLayout: UICollectionViewLayout {
     }
     
     override func layoutAttributesForItemAtIndexPath(indexPath: NSIndexPath) -> UICollectionViewLayoutAttributes! {
-        return self.itemAttributes[indexPath.section][indexPath.row] as UICollectionViewLayoutAttributes
+        return self.itemAttributes[indexPath.section][indexPath.row] as! UICollectionViewLayoutAttributes
     }
     
-    override func layoutAttributesForElementsInRect(rect: CGRect) -> [AnyObject]? {
-        var attributes : NSMutableArray = NSMutableArray()
-        for section in self.itemAttributes {
-            attributes.addObjectsFromArray(
-                section.filteredArrayUsingPredicate(
+    override func layoutAttributesForElementsInRect(rect: CGRect) -> [UICollectionViewLayoutAttributes]? {
+        var attributes = [UICollectionViewLayoutAttributes]()
+        if self.itemAttributes != nil {
+            for section in self.itemAttributes {
+                
+                let filteredArray  =  section.filteredArrayUsingPredicate(
+                    
                     NSPredicate(block: { (evaluatedObject, bindings) -> Bool in
                         return CGRectIntersectsRect(rect, evaluatedObject.frame)
                     })
-                )
-            )
+                    ) as! [UICollectionViewLayoutAttributes]
+                
+                
+                attributes.appendContentsOf(filteredArray)
+                
+            }
         }
+        
         return attributes
     }
     
@@ -154,7 +161,7 @@ class CustomCollectionViewLayout: UICollectionViewLayout {
             text = "Col 7"
         }
         
-        var size : CGSize = (text as NSString).sizeWithAttributes([NSFontAttributeName: UIFont.systemFontOfSize(17.0)])
+        let size : CGSize = (text as NSString).sizeWithAttributes([NSFontAttributeName: UIFont.systemFontOfSize(17.0)])
         let width : CGFloat = size.width + 25
         return CGSizeMake(width, 30)
     }

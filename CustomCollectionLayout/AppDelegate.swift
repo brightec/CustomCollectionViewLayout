@@ -20,7 +20,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         self.window!.backgroundColor = UIColor.whiteColor()
         
         // Define root view controller
-        var mainController : CollectionViewController = CollectionViewController(nibName: "CollectionViewController", bundle: nil)
+        let mainController : CollectionViewController = CollectionViewController(nibName: "CollectionViewController", bundle: nil)
         
         self.window!.rootViewController = mainController
         self.window!.makeKeyAndVisible()

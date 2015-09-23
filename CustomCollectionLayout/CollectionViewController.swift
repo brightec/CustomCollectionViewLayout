@@ -38,7 +38,7 @@ class CollectionViewController: UIViewController, UICollectionViewDataSource, UI
         
         if indexPath.section == 0 {
             if indexPath.row == 0 {
-                let dateCell : DateCollectionViewCell = collectionView .dequeueReusableCellWithReuseIdentifier(dateCellIdentifier, forIndexPath: indexPath) as DateCollectionViewCell
+                let dateCell : DateCollectionViewCell = collectionView .dequeueReusableCellWithReuseIdentifier(dateCellIdentifier, forIndexPath: indexPath) as! DateCollectionViewCell
                 dateCell.backgroundColor = UIColor.whiteColor()
                 dateCell.dateLabel.font = UIFont.systemFontOfSize(13)
                 dateCell.dateLabel.textColor = UIColor.blackColor()
@@ -46,7 +46,7 @@ class CollectionViewController: UIViewController, UICollectionViewDataSource, UI
                 
                 return dateCell
             } else {
-                let contentCell : ContentCollectionViewCell = collectionView .dequeueReusableCellWithReuseIdentifier(contentCellIdentifier, forIndexPath: indexPath) as ContentCollectionViewCell
+                let contentCell : ContentCollectionViewCell = collectionView .dequeueReusableCellWithReuseIdentifier(contentCellIdentifier, forIndexPath: indexPath) as! ContentCollectionViewCell
                 contentCell.contentLabel.font = UIFont.systemFontOfSize(13)
                 contentCell.contentLabel.textColor = UIColor.blackColor()
                 contentCell.contentLabel.text = "Section"
@@ -61,7 +61,7 @@ class CollectionViewController: UIViewController, UICollectionViewDataSource, UI
             }
         } else {
             if indexPath.row == 0 {
-                let dateCell : DateCollectionViewCell = collectionView .dequeueReusableCellWithReuseIdentifier(dateCellIdentifier, forIndexPath: indexPath) as DateCollectionViewCell
+                let dateCell : DateCollectionViewCell = collectionView .dequeueReusableCellWithReuseIdentifier(dateCellIdentifier, forIndexPath: indexPath) as! DateCollectionViewCell
                 dateCell.dateLabel.font = UIFont.systemFontOfSize(13)
                 dateCell.dateLabel.textColor = UIColor.blackColor()
                 dateCell.dateLabel.text = String(indexPath.section)
@@ -73,7 +73,7 @@ class CollectionViewController: UIViewController, UICollectionViewDataSource, UI
                 
                 return dateCell
             } else {
-                let contentCell : ContentCollectionViewCell = collectionView .dequeueReusableCellWithReuseIdentifier(contentCellIdentifier, forIndexPath: indexPath) as ContentCollectionViewCell
+                let contentCell : ContentCollectionViewCell = collectionView .dequeueReusableCellWithReuseIdentifier(contentCellIdentifier, forIndexPath: indexPath) as! ContentCollectionViewCell
                 contentCell.contentLabel.font = UIFont.systemFontOfSize(13)
                 contentCell.contentLabel.textColor = UIColor.blackColor()
                 contentCell.contentLabel.text = "Content"
