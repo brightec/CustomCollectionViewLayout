@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2A6F06281D36ACCA000E771E /* MultiColumnIndexPath.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A6F06271D36ACCA000E771E /* MultiColumnIndexPath.swift */; };
+		2A6F062A1D36ACF0000E771E /* MultiColumnViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A6F06291D36ACF0000E771E /* MultiColumnViewCell.swift */; };
 		8259A7E41A3ED3A00027F925 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8259A7E31A3ED3A00027F925 /* AppDelegate.swift */; };
 		8259A7E61A3ED3A00027F925 /* CollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8259A7E51A3ED3A00027F925 /* CollectionViewController.swift */; };
 		8259A7EB1A3ED3A00027F925 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8259A7EA1A3ED3A00027F925 /* Images.xcassets */; };
@@ -14,9 +16,7 @@
 		8259A7FA1A3ED3A10027F925 /* CustomCollectionLayoutTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8259A7F91A3ED3A10027F925 /* CustomCollectionLayoutTests.swift */; };
 		8259A8101A3ED55F0027F925 /* CollectionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8259A80F1A3ED55F0027F925 /* CollectionViewController.xib */; };
 		8259A8121A3ED5AC0027F925 /* CustomCollectionViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8259A8111A3ED5AC0027F925 /* CustomCollectionViewLayout.swift */; };
-		827A97181A603DD80055CFA1 /* DateCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 827A97161A603DD80055CFA1 /* DateCollectionViewCell.swift */; };
 		827A97191A603DD80055CFA1 /* DateCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 827A97171A603DD80055CFA1 /* DateCollectionViewCell.xib */; };
-		827A971E1A603E600055CFA1 /* ContentCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 827A971C1A603E600055CFA1 /* ContentCollectionViewCell.swift */; };
 		827A971F1A603E600055CFA1 /* ContentCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 827A971D1A603E600055CFA1 /* ContentCollectionViewCell.xib */; };
 /* End PBXBuildFile section */
 
@@ -31,6 +31,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		2A6F06271D36ACCA000E771E /* MultiColumnIndexPath.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MultiColumnIndexPath.swift; sourceTree = "<group>"; };
+		2A6F06291D36ACF0000E771E /* MultiColumnViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MultiColumnViewCell.swift; sourceTree = "<group>"; };
 		8259A7DE1A3ED3A00027F925 /* CustomCollectionLayout.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CustomCollectionLayout.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8259A7E21A3ED3A00027F925 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8259A7E31A3ED3A00027F925 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -44,9 +46,7 @@
 		8259A8051A3ED3B70027F925 /* CustomCollectionViewLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomCollectionViewLayout.m; sourceTree = "<group>"; };
 		8259A80F1A3ED55F0027F925 /* CollectionViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CollectionViewController.xib; sourceTree = "<group>"; };
 		8259A8111A3ED5AC0027F925 /* CustomCollectionViewLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomCollectionViewLayout.swift; sourceTree = "<group>"; };
-		827A97161A603DD80055CFA1 /* DateCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateCollectionViewCell.swift; sourceTree = "<group>"; };
 		827A97171A603DD80055CFA1 /* DateCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DateCollectionViewCell.xib; sourceTree = "<group>"; };
-		827A971C1A603E600055CFA1 /* ContentCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentCollectionViewCell.swift; sourceTree = "<group>"; };
 		827A971D1A603E600055CFA1 /* ContentCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ContentCollectionViewCell.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -129,6 +129,8 @@
 			isa = PBXGroup;
 			children = (
 				8259A8091A3ED47F0027F925 /* CustomCollectionViewLayout */,
+				2A6F06271D36ACCA000E771E /* MultiColumnIndexPath.swift */,
+				2A6F06291D36ACF0000E771E /* MultiColumnViewCell.swift */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -180,7 +182,6 @@
 		827A971A1A603E370055CFA1 /* Date Cell */ = {
 			isa = PBXGroup;
 			children = (
-				827A97161A603DD80055CFA1 /* DateCollectionViewCell.swift */,
 				827A97171A603DD80055CFA1 /* DateCollectionViewCell.xib */,
 			);
 			name = "Date Cell";
@@ -189,7 +190,6 @@
 		827A971B1A603E470055CFA1 /* Content Cell */ = {
 			isa = PBXGroup;
 			children = (
-				827A971C1A603E600055CFA1 /* ContentCollectionViewCell.swift */,
 				827A971D1A603E600055CFA1 /* ContentCollectionViewCell.xib */,
 			);
 			name = "Content Cell";
@@ -299,11 +299,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				827A97181A603DD80055CFA1 /* DateCollectionViewCell.swift in Sources */,
 				8259A7E61A3ED3A00027F925 /* CollectionViewController.swift in Sources */,
+				2A6F062A1D36ACF0000E771E /* MultiColumnViewCell.swift in Sources */,
 				8259A8121A3ED5AC0027F925 /* CustomCollectionViewLayout.swift in Sources */,
 				8259A7E41A3ED3A00027F925 /* AppDelegate.swift in Sources */,
-				827A971E1A603E600055CFA1 /* ContentCollectionViewCell.swift in Sources */,
+				2A6F06281D36ACCA000E771E /* MultiColumnIndexPath.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

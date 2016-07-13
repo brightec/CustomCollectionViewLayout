@@ -1,91 +1,94 @@
-//
-//  CollectionViewController.swift
-//  CustomCollectionLayout
-//
-//  Created by JOSE MARTINEZ on 15/12/2014.
-//  Copyright (c) 2014 brightec. All rights reserved.
-//
-
 import UIKit
 
-class CollectionViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate {
+
+class CollectionViewController: UICollectionViewController {
+    
     let dateCellIdentifier = "DateCellIdentifier"
     let contentCellIdentifier = "ContentCellIdentifier"
-    @IBOutlet weak var collectionView: UICollectionView!
-    
+    let alpha = CGFloat(1.0)
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.collectionView .registerNib(UINib(nibName: "DateCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: dateCellIdentifier)
-        self.collectionView .registerNib(UINib(nibName: "ContentCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: contentCellIdentifier)
+        self.collectionView?.registerNib(UINib(nibName: "DateCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: dateCellIdentifier)
+        self.collectionView?.registerNib(UINib(nibName: "ContentCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: contentCellIdentifier)
     }
     
     
     // MARK - UICollectionViewDataSource
     
-    func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
-        return 50
+    override func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
+        return numberOfRows(collectionView)
     }
     
+    func numberOfRows(collectionView: UICollectionView) -> Int {
+        return 50 // 49 rows + header
+    }
     
-    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    override func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return numberOfColumns(collectionView, numberOfItemsInSection: section)
+    }
+    
+    func numberOfColumns(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return 8
     }
     
-    
-    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
+    override func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         
-        if indexPath.section == 0 {
-            if indexPath.row == 0 {
-                let dateCell : DateCollectionViewCell = collectionView .dequeueReusableCellWithReuseIdentifier(dateCellIdentifier, forIndexPath: indexPath) as! DateCollectionViewCell
-                dateCell.backgroundColor = UIColor.whiteColor()
-                dateCell.dateLabel.font = UIFont.systemFontOfSize(13)
-                dateCell.dateLabel.textColor = UIColor.blackColor()
-                dateCell.dateLabel.text = "Date"
-                
-                return dateCell
-            } else {
-                let contentCell : ContentCollectionViewCell = collectionView .dequeueReusableCellWithReuseIdentifier(contentCellIdentifier, forIndexPath: indexPath) as! ContentCollectionViewCell
-                contentCell.contentLabel.font = UIFont.systemFontOfSize(13)
-                contentCell.contentLabel.textColor = UIColor.blackColor()
-                contentCell.contentLabel.text = "Section"
-                
-                if indexPath.section % 2 != 0 {
-                    contentCell.backgroundColor = UIColor(white: 242/255.0, alpha: 1.0)
-                } else {
-                    contentCell.backgroundColor = UIColor.whiteColor()
-                }
-                
-                return contentCell
-            }
+        let cell = MultiColumnIndexPath(indexPath: indexPath)
+        
+        if cell.isOriginCell() {
+            return initializeOriginCell(cell)
+        } else if (cell.isHeaderColumn()) {
+            return initializeHeaderColumnCell(cell)
+        } else if (cell.isHeaderRow()) {
+            return initializeHeaderRowCell(cell)
         } else {
-            if indexPath.row == 0 {
-                let dateCell : DateCollectionViewCell = collectionView .dequeueReusableCellWithReuseIdentifier(dateCellIdentifier, forIndexPath: indexPath) as! DateCollectionViewCell
-                dateCell.dateLabel.font = UIFont.systemFontOfSize(13)
-                dateCell.dateLabel.textColor = UIColor.blackColor()
-                dateCell.dateLabel.text = String(indexPath.section)
-                if indexPath.section % 2 != 0 {
-                    dateCell.backgroundColor = UIColor(white: 242/255.0, alpha: 1.0)
-                } else {
-                    dateCell.backgroundColor = UIColor.whiteColor()
-                }
-                
-                return dateCell
-            } else {
-                let contentCell : ContentCollectionViewCell = collectionView .dequeueReusableCellWithReuseIdentifier(contentCellIdentifier, forIndexPath: indexPath) as! ContentCollectionViewCell
-                contentCell.contentLabel.font = UIFont.systemFontOfSize(13)
-                contentCell.contentLabel.textColor = UIColor.blackColor()
-                contentCell.contentLabel.text = "Content"
-                if indexPath.section % 2 != 0 {
-                    contentCell.backgroundColor = UIColor(white: 242/255.0, alpha: 1.0)
-                } else {
-                    contentCell.backgroundColor = UIColor.whiteColor()
-                }
-                
-                return contentCell
-            }
+            return initializeDataCell(cell)
         }
     }
+    
+    func initializeOriginCell(cell: MultiColumnIndexPath) -> MultiColumnViewCell {
+        let dateCell: MultiColumnViewCell = collectionView?.dequeueReusableCellWithReuseIdentifier(dateCellIdentifier, forIndexPath: cell.indexPath) as! MultiColumnViewCell
+        
+        dateCell.contentLabel.text = "Date"
+        
+        return dateCell
+    }
+    
+    func initializeHeaderColumnCell(cell: MultiColumnIndexPath) -> MultiColumnViewCell {
+        let contentCell : MultiColumnViewCell = collectionView?.dequeueReusableCellWithReuseIdentifier(contentCellIdentifier, forIndexPath: cell.indexPath) as! MultiColumnViewCell
+        
+        contentCell.contentLabel.text = String(cell.row)
+        _setAlternatingCellBackground(cell, contentCell: contentCell)
+        
+        return contentCell
+    }
+    
+    func _setAlternatingCellBackground(cellIndex: MultiColumnIndexPath, contentCell: MultiColumnViewCell) {
+        if cellIndex.row % 2 != 0 {
+            contentCell.backgroundColor = UIColor(white: 242/255.0, alpha: alpha)
+        } else {
+            contentCell.backgroundColor = UIColor.whiteColor()
+        }
+    }
+    
+    func initializeHeaderRowCell(cell: MultiColumnIndexPath) -> MultiColumnViewCell {
+        let dateCell : MultiColumnViewCell = collectionView?.dequeueReusableCellWithReuseIdentifier(dateCellIdentifier, forIndexPath: cell.indexPath) as! MultiColumnViewCell
+        
+        dateCell.contentLabel.text = String(cell.column)
+        
+        _setAlternatingCellBackground(cell, contentCell: dateCell)
+        
+        return dateCell
+    }
+    
+    func initializeDataCell(cell: MultiColumnIndexPath) -> MultiColumnViewCell {
+        let contentCell : MultiColumnViewCell = collectionView?.dequeueReusableCellWithReuseIdentifier(contentCellIdentifier, forIndexPath: cell.indexPath) as! MultiColumnViewCell
+        
+        contentCell.contentLabel.text = "Content"
+        
+        _setAlternatingCellBackground(cell, contentCell: contentCell)
+        return contentCell
+    }
 }
-
