@@ -1,7 +1,7 @@
 import UIKit
 
 
-class InventoryController: UICollectionViewController {
+class CollectionViewController: UICollectionViewController {
     
     let dateCellIdentifier = "DateCellIdentifier"
     let contentCellIdentifier = "ContentCellIdentifier"
