@@ -30,15 +30,15 @@ class CustomCollectionViewLayout: UICollectionViewLayout {
                     
                     let attributes = layoutAttributesForItemAtIndexPath(NSIndexPath(forItem: index, inSection: section))
                     if section == 0 {
-                        var frame = attributes.frame
+                        var frame = attributes!.frame
                         frame.origin.y = collectionView!.contentOffset.y
-                        attributes.frame = frame
+                        attributes!.frame = frame
                     }
                     
                     if index == 0 {
-                        var frame = attributes.frame
+                        var frame = attributes!.frame
                         frame.origin.x = collectionView!.contentOffset.x
-                        attributes.frame = frame
+                        attributes!.frame = frame
                     }
                 }
             }
@@ -109,8 +109,8 @@ class CustomCollectionViewLayout: UICollectionViewLayout {
         return contentSize
     }
     
-    override func layoutAttributesForItemAtIndexPath(indexPath: NSIndexPath) -> UICollectionViewLayoutAttributes! {
-        return itemAttributes[indexPath.section][indexPath.row] as! UICollectionViewLayoutAttributes
+    override func layoutAttributesForItemAtIndexPath(indexPath: NSIndexPath) -> UICollectionViewLayoutAttributes? {
+        return itemAttributes[indexPath.section][indexPath.row]
     }
     
     override func layoutAttributesForElementsInRect(rect: CGRect) -> [UICollectionViewLayoutAttributes]? {
