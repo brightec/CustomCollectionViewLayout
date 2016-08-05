@@ -11,8 +11,8 @@ import UIKit
 class CustomCollectionViewLayout: UICollectionViewLayout {
 
     let numberOfColumns = 8
-    var itemAttributes : NSMutableArray!
-    var itemsSize : NSMutableArray!
+    var itemAttributes = [[UICollectionViewLayoutAttributes]]()
+    var itemsSize = [CGSize]()
     var contentSize : CGSize!
     
     override func prepareLayout() {
@@ -20,7 +20,7 @@ class CustomCollectionViewLayout: UICollectionViewLayout {
             return
         }
         
-        if (self.itemAttributes != nil && self.itemAttributes.count > 0) {
+        if (self.itemAttributes.count > 0) {
             for section in 0..<self.collectionView!.numberOfSections() {
                 let numberOfItems = self.collectionView!.numberOfItemsInSection(section)
                 for index in 0..<numberOfItems {
@@ -45,7 +45,7 @@ class CustomCollectionViewLayout: UICollectionViewLayout {
             return
         }
         
-        if (self.itemsSize == nil || self.itemsSize.count != numberOfColumns) {
+        if (self.itemsSize.count != numberOfColumns) {
             self.calculateItemsSize()
         }
         
@@ -59,7 +59,7 @@ class CustomCollectionViewLayout: UICollectionViewLayout {
             var sectionAttributes = [UICollectionViewLayoutAttributes]()
             
             for index in 0..<numberOfColumns {
-                let itemSize = self.itemsSize[index].CGSizeValue()
+                let itemSize = self.itemsSize[index]
                 let indexPath = NSIndexPath(forItem: index, inSection: section)
                 let attributes = UICollectionViewLayoutAttributes(forCellWithIndexPath: indexPath)
                 attributes.frame = CGRectIntegral(CGRectMake(xOffset, yOffset, itemSize.width, itemSize.height))
@@ -96,13 +96,11 @@ class CustomCollectionViewLayout: UICollectionViewLayout {
                     yOffset += itemSize.height
                 }
             }
-            if (self.itemAttributes == nil) {
-                self.itemAttributes = NSMutableArray(capacity: self.collectionView!.numberOfSections())
-            }
-            self.itemAttributes .addObject(sectionAttributes)
+
+            self.itemAttributes.append(sectionAttributes)
         }
-        
-        let attributes = self.itemAttributes.lastObject?.lastObject as! UICollectionViewLayoutAttributes
+      
+        let attributes = self.itemAttributes.last!.last!
         contentHeight = attributes.frame.origin.y + attributes.frame.size.height
         self.contentSize = CGSizeMake(contentWidth, contentHeight)
     }
@@ -116,26 +114,18 @@ class CustomCollectionViewLayout: UICollectionViewLayout {
     }
     
     override func layoutAttributesForElementsInRect(rect: CGRect) -> [UICollectionViewLayoutAttributes]? {
-        var attributes = [UICollectionViewLayoutAttributes]()
-        if self.itemAttributes != nil {
-            for section in self.itemAttributes {
-                
-                let filteredArray  =  section.filteredArrayUsingPredicate(
-                    
-                    NSPredicate(block: { (evaluatedObject, bindings) -> Bool in
-                        return CGRectIntersectsRect(rect, evaluatedObject.frame)
-                    })
-                    ) as! [UICollectionViewLayoutAttributes]
-                
-                
-                attributes.appendContentsOf(filteredArray)
-                
-            }
+      var attributes = [UICollectionViewLayoutAttributes]()
+      
+      for section in self.itemAttributes {
+        let filteredArray = section.filter { obj -> Bool in
+          return CGRectIntersectsRect(rect, obj.frame)
         }
-        
-        return attributes
+        attributes.appendContentsOf(filteredArray)
+      }
+      
+      return attributes
     }
-    
+  
     override func shouldInvalidateLayoutForBoundsChange(newBounds: CGRect) -> Bool {
         return true
     }
@@ -167,9 +157,8 @@ class CustomCollectionViewLayout: UICollectionViewLayout {
     }
     
     func calculateItemsSize() {
-        self.itemsSize = NSMutableArray(capacity: numberOfColumns)
         for index in 0..<numberOfColumns {
-            self.itemsSize.addObject(NSValue(CGSize: self.sizeForItemWithColumnIndex(index)))
+            self.itemsSize.append(self.sizeForItemWithColumnIndex(index))
         }
     }
 }
