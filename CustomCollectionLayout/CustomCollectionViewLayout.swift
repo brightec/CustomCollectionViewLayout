@@ -10,19 +10,19 @@ import UIKit
 
 class CustomCollectionViewLayout: UICollectionViewLayout {
 
-    let numberOfColumns = 8
-    var itemAttributes = [[UICollectionViewLayoutAttributes]]()
-    var itemsSize = [CGSize]()
-    var contentSize : CGSize!
+    private let numberOfColumns = 8
+    private var itemAttributes = [[UICollectionViewLayoutAttributes]]()
+    private var itemsSize = [CGSize]()
+    private var contentSize : CGSize!
     
     override func prepareLayout() {
-        if self.collectionView?.numberOfSections() == 0 {
+        if collectionView!.numberOfSections() == 0 {
             return
         }
         
-        if (self.itemAttributes.count > 0) {
-            for section in 0..<self.collectionView!.numberOfSections() {
-                let numberOfItems = self.collectionView!.numberOfItemsInSection(section)
+        if (itemAttributes.count > 0) {
+            for section in 0..<collectionView!.numberOfSections() {
+                let numberOfItems = collectionView!.numberOfItemsInSection(section)
                 for index in 0..<numberOfItems {
                     if section != 0 && index != 0 {
                         continue
@@ -45,8 +45,8 @@ class CustomCollectionViewLayout: UICollectionViewLayout {
             return
         }
         
-        if (self.itemsSize.count != numberOfColumns) {
-            self.calculateItemsSize()
+        if itemsSize.count != numberOfColumns {
+            calculateItemsSize()
         }
         
         var column = 0
@@ -59,7 +59,7 @@ class CustomCollectionViewLayout: UICollectionViewLayout {
             var sectionAttributes = [UICollectionViewLayoutAttributes]()
             
             for index in 0..<numberOfColumns {
-                let itemSize = self.itemsSize[index]
+                let itemSize = itemsSize[index]
                 let indexPath = NSIndexPath(forItem: index, inSection: section)
                 let attributes = UICollectionViewLayoutAttributes(forCellWithIndexPath: indexPath)
                 attributes.frame = CGRectIntegral(CGRectMake(xOffset, yOffset, itemSize.width, itemSize.height))
@@ -97,26 +97,26 @@ class CustomCollectionViewLayout: UICollectionViewLayout {
                 }
             }
 
-            self.itemAttributes.append(sectionAttributes)
+            itemAttributes.append(sectionAttributes)
         }
       
-        let attributes = self.itemAttributes.last!.last!
+        let attributes = itemAttributes.last!.last!
         contentHeight = attributes.frame.origin.y + attributes.frame.size.height
-        self.contentSize = CGSizeMake(contentWidth, contentHeight)
+        contentSize = CGSizeMake(contentWidth, contentHeight)
     }
     
     override func collectionViewContentSize() -> CGSize {
-        return self.contentSize
+        return contentSize
     }
     
     override func layoutAttributesForItemAtIndexPath(indexPath: NSIndexPath) -> UICollectionViewLayoutAttributes! {
-        return self.itemAttributes[indexPath.section][indexPath.row] as! UICollectionViewLayoutAttributes
+        return itemAttributes[indexPath.section][indexPath.row] as! UICollectionViewLayoutAttributes
     }
     
     override func layoutAttributesForElementsInRect(rect: CGRect) -> [UICollectionViewLayoutAttributes]? {
       var attributes = [UICollectionViewLayoutAttributes]()
       
-      for section in self.itemAttributes {
+      for section in itemAttributes {
         let filteredArray = section.filter { obj -> Bool in
           return CGRectIntersectsRect(rect, obj.frame)
         }
@@ -131,7 +131,7 @@ class CustomCollectionViewLayout: UICollectionViewLayout {
     }
     
     func sizeForItemWithColumnIndex(columnIndex: Int) -> CGSize {
-        var text : String = ""
+        var text = ""
         switch (columnIndex) {
         case 0:
             text = "Col 0"
@@ -151,14 +151,14 @@ class CustomCollectionViewLayout: UICollectionViewLayout {
             text = "Col 7"
         }
         
-        let size : CGSize = (text as NSString).sizeWithAttributes([NSFontAttributeName: UIFont.systemFontOfSize(17.0)])
-        let width : CGFloat = size.width + 25
+        let size = (text as NSString).sizeWithAttributes([NSFontAttributeName: UIFont.systemFontOfSize(17.0)])
+        let width = size.width + 25
         return CGSizeMake(width, 30)
     }
     
     func calculateItemsSize() {
         for index in 0..<numberOfColumns {
-            self.itemsSize.append(self.sizeForItemWithColumnIndex(index))
+            itemsSize.append(sizeForItemWithColumnIndex(index))
         }
     }
 }
