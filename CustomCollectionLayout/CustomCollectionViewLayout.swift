@@ -28,16 +28,16 @@ class CustomCollectionViewLayout: UICollectionViewLayout {
                         continue
                     }
                     
-                    let attributes = self.layoutAttributesForItemAtIndexPath(NSIndexPath(forItem: index, inSection: section))
+                    let attributes = layoutAttributesForItemAtIndexPath(NSIndexPath(forItem: index, inSection: section))
                     if section == 0 {
                         var frame = attributes.frame
-                        frame.origin.y = self.collectionView!.contentOffset.y
+                        frame.origin.y = collectionView!.contentOffset.y
                         attributes.frame = frame
                     }
                     
                     if index == 0 {
                         var frame = attributes.frame
-                        frame.origin.x = self.collectionView!.contentOffset.x
+                        frame.origin.x = collectionView!.contentOffset.x
                         attributes.frame = frame
                     }
                 }
@@ -55,7 +55,7 @@ class CustomCollectionViewLayout: UICollectionViewLayout {
         var contentWidth : CGFloat = 0
         var contentHeight : CGFloat = 0
         
-        for section in 0..<self.collectionView!.numberOfSections() {
+        for section in 0..<collectionView!.numberOfSections() {
             var sectionAttributes = [UICollectionViewLayoutAttributes]()
             
             for index in 0..<numberOfColumns {
@@ -72,12 +72,12 @@ class CustomCollectionViewLayout: UICollectionViewLayout {
                 
                 if section == 0 {
                     var frame = attributes.frame
-                    frame.origin.y = self.collectionView!.contentOffset.y
+                    frame.origin.y = collectionView!.contentOffset.y
                     attributes.frame = frame
                 }
                 if index == 0 {
                     var frame = attributes.frame
-                    frame.origin.x = self.collectionView!.contentOffset.x
+                    frame.origin.x = collectionView!.contentOffset.x
                     attributes.frame = frame
                 }
                 
