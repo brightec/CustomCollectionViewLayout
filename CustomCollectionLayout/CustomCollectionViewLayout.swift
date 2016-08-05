@@ -131,26 +131,7 @@ class CustomCollectionViewLayout: UICollectionViewLayout {
     }
     
     func sizeForItemWithColumnIndex(columnIndex: Int) -> CGSize {
-        var text = ""
-        switch (columnIndex) {
-        case 0:
-            text = "Col 0"
-        case 1:
-            text = "Col 1"
-        case 2:
-            text = "Col 2"
-        case 3:
-            text = "Col 3"
-        case 4:
-            text = "Col 4"
-        case 5:
-            text = "Col 5"
-        case 6:
-            text = "Col 6"
-        default:
-            text = "Col 7"
-        }
-        
+        let text = "Col \(columnIndex)"
         let size = (text as NSString).sizeWithAttributes([NSFontAttributeName: UIFont.systemFontOfSize(17.0)])
         let width = size.width + 25
         return CGSizeMake(width, 30)
