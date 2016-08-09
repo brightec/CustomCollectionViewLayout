@@ -13,7 +13,7 @@ class CustomCollectionViewLayout: UICollectionViewLayout {
     private let numberOfColumns = 8
     private var itemAttributes = [[UICollectionViewLayoutAttributes]]()
     private var itemsSize = [CGSize]()
-    private var contentSize : CGSize!
+    private var contentSize = CGSizeZero
     
     override func prepareLayout() {
         if collectionView!.numberOfSections() == 0 {
