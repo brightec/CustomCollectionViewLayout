@@ -11,24 +11,26 @@ import UIKit
 class CustomCollectionViewLayout: UICollectionViewLayout {
 
     let numberOfColumns = 8
-    var itemAttributes : NSMutableArray!
-    var itemsSize : NSMutableArray!
+    open var titles :[String] = ["First","Second","Third","Fourth","Five","Six","Seven","Eight"]
+    var itemAttributes : [[UICollectionViewLayoutAttributes]] = []
+    var itemsSize : [CGSize] = []
     var contentSize : CGSize!
     
-    override func prepareLayout() {
-        if self.collectionView?.numberOfSections() == 0 {
+    override func prepare() {
+        print("prepare method added")
+        if self.collectionView?.numberOfSections == 0 {
             return
         }
         
-        if (self.itemAttributes != nil && self.itemAttributes.count > 0) {
-            for section in 0..<self.collectionView!.numberOfSections() {
-                var numberOfItems : Int = self.collectionView!.numberOfItemsInSection(section)
+        if self.itemAttributes.count > 0 {
+            for section in 0..<self.collectionView!.numberOfSections {
+                let numberOfItems : Int = self.collectionView!.numberOfItems(inSection: section)
                 for index in 0..<numberOfItems {
                     if section != 0 && index != 0 {
                         continue
                     }
                     
-                    var attributes : UICollectionViewLayoutAttributes = self.layoutAttributesForItemAtIndexPath(NSIndexPath(forItem: index, inSection: section))
+                    let attributes : UICollectionViewLayoutAttributes = self.layoutAttributesForItem(at: IndexPath(item: index, section: section))
                     if section == 0 {
                         var frame = attributes.frame
                         frame.origin.y = self.collectionView!.contentOffset.y
@@ -45,7 +47,8 @@ class CustomCollectionViewLayout: UICollectionViewLayout {
             return
         }
         
-        if (self.itemsSize == nil || self.itemsSize.count != numberOfColumns) {
+        if self.itemsSize.count == 0 || self.itemsSize.count != numberOfColumns {
+            
             self.calculateItemsSize()
         }
         
@@ -55,14 +58,14 @@ class CustomCollectionViewLayout: UICollectionViewLayout {
         var contentWidth : CGFloat = 0
         var contentHeight : CGFloat = 0
         
-        for section in 0..<self.collectionView!.numberOfSections() {
-            var sectionAttributes = NSMutableArray()
+        for section in 0..<self.collectionView!.numberOfSections {
+            var sectionAttributes = [UICollectionViewLayoutAttributes]()
             
             for index in 0..<numberOfColumns {
-                var itemSize = self.itemsSize[index].CGSizeValue()
-                var indexPath = NSIndexPath(forItem: index, inSection: section)
-                var attributes = UICollectionViewLayoutAttributes(forCellWithIndexPath: indexPath)
-                attributes.frame = CGRectIntegral(CGRectMake(xOffset, yOffset, itemSize.width, itemSize.height))
+                let itemSize = self.itemsSize[index]
+                let indexPath = IndexPath(item: index, section: section)
+                let attributes = UICollectionViewLayoutAttributes(forCellWith: indexPath)
+                attributes.frame = CGRect(x: xOffset, y: yOffset, width: itemSize.width, height: itemSize.height).integral
                 
                 if section == 0 && index == 0 {
                     attributes.zIndex = 1024;
@@ -81,10 +84,10 @@ class CustomCollectionViewLayout: UICollectionViewLayout {
                     attributes.frame = frame
                 }
                 
-                sectionAttributes.addObject(attributes)
+                sectionAttributes.append(attributes)
                 
                 xOffset += itemSize.width
-                column++
+                column += 1
                 
                 if column == numberOfColumns {
                     if xOffset > contentWidth {
@@ -96,51 +99,44 @@ class CustomCollectionViewLayout: UICollectionViewLayout {
                     yOffset += itemSize.height
                 }
             }
-            if (self.itemAttributes == nil) {
-                self.itemAttributes = NSMutableArray(capacity: self.collectionView!.numberOfSections())
-            }
-            self.itemAttributes .addObject(sectionAttributes)
+            
+            self.itemAttributes.append(sectionAttributes)
         }
         
-        var attributes : UICollectionViewLayoutAttributes = self.itemAttributes.lastObject?.lastObject as! UICollectionViewLayoutAttributes
+        let attributes : UICollectionViewLayoutAttributes = self.itemAttributes.last!.last!
+        
         contentHeight = attributes.frame.origin.y + attributes.frame.size.height
-        self.contentSize = CGSizeMake(contentWidth, contentHeight)
+        self.contentSize = CGSize(width: contentWidth, height: contentHeight)
     }
     
-    override func collectionViewContentSize() -> CGSize {
+    override var collectionViewContentSize : CGSize {
         return self.contentSize
     }
     
-    override func layoutAttributesForItemAtIndexPath(indexPath: NSIndexPath) -> UICollectionViewLayoutAttributes! {
-        return self.itemAttributes[indexPath.section][indexPath.row] as! UICollectionViewLayoutAttributes
+    override func layoutAttributesForItem(at indexPath: IndexPath) -> UICollectionViewLayoutAttributes {
+        
+        return self.itemAttributes[indexPath.section][indexPath.row]
     }
     
-    override func layoutAttributesForElementsInRect(rect: CGRect) -> [UICollectionViewLayoutAttributes]? {
+    
+    override func layoutAttributesForElements(in rect: CGRect) -> [UICollectionViewLayoutAttributes]? {
         var attributes = [UICollectionViewLayoutAttributes]()
-        if self.itemAttributes != nil {
-            for section in self.itemAttributes {
-                
-                let filteredArray  =  section.filteredArrayUsingPredicate(
-                    
-                    NSPredicate(block: { (evaluatedObject, bindings) -> Bool in
-                        return CGRectIntersectsRect(rect, evaluatedObject.frame)
-                    })
-                    ) as! [UICollectionViewLayoutAttributes]
-                
-                
-                attributes.appendContentsOf(filteredArray)
-                
-            }
+        for section in self.itemAttributes {
+
+            let filteredArray = section.filter({rect.intersects($0.frame)})
+            
+            attributes.append(contentsOf: filteredArray)
+            
         }
         
         return attributes
     }
     
-    override func shouldInvalidateLayoutForBoundsChange(newBounds: CGRect) -> Bool {
+    override func shouldInvalidateLayout(forBoundsChange newBounds: CGRect) -> Bool {
         return true
     }
     
-    func sizeForItemWithColumnIndex(columnIndex: Int) -> CGSize {
+    func sizeForItemWithColumnIndex(_ columnIndex: Int) -> CGSize {
         var text : String = ""
         switch (columnIndex) {
         case 0:
@@ -161,15 +157,14 @@ class CustomCollectionViewLayout: UICollectionViewLayout {
             text = "Col 7"
         }
         
-        let size : CGSize = (text as NSString).sizeWithAttributes([NSFontAttributeName: UIFont.systemFontOfSize(17.0)])
+        let size : CGSize = (text as NSString).size(attributes: [NSFontAttributeName: UIFont.systemFont(ofSize: 17.0)])
         let width : CGFloat = size.width + 25
-        return CGSizeMake(width, 30)
+        return CGSize(width: width, height: 30)
     }
     
     func calculateItemsSize() {
-        self.itemsSize = NSMutableArray(capacity: numberOfColumns)
         for index in 0..<numberOfColumns {
-            self.itemsSize.addObject(NSValue(CGSize: self.sizeForItemWithColumnIndex(index)))
+            self.itemsSize.append(self.sizeForItemWithColumnIndex(index))
         }
     }
 }
