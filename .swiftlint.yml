@@ -1,0 +1,19 @@
+disabled_rules:
+  - todo
+
+opt_in_rules: # some rules are only opt-in
+  - control_statement
+  - empty_count
+  - trailing_newline
+  - colon
+  - comma
+
+excluded:
+ - Pods
+
+force_cast: warning # implicitly
+force_try:
+  severity: warning # explicitly
+line_length:
+ warning: 130
+ error: 130

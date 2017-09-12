@@ -1,91 +1,76 @@
+// Copyright 2017 Brightec
 //
-//  CollectionViewController.swift
-//  CustomCollectionLayout
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
 //
-//  Created by JOSE MARTINEZ on 15/12/2014.
-//  Copyright (c) 2014 brightec. All rights reserved.
+// http://www.apache.org/licenses/LICENSE-2.0
 //
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
 
 import UIKit
 
-class CollectionViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate {
-    let dateCellIdentifier = "DateCellIdentifier"
+class CollectionViewController: UIViewController {
+
     let contentCellIdentifier = "ContentCellIdentifier"
+
     @IBOutlet weak var collectionView: UICollectionView!
-    
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        self.collectionView .registerNib(UINib(nibName: "DateCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: dateCellIdentifier)
-        self.collectionView .registerNib(UINib(nibName: "ContentCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: contentCellIdentifier)
+
+        collectionView.register(UINib(nibName: "ContentCollectionViewCell", bundle: nil),
+                                forCellWithReuseIdentifier: contentCellIdentifier)
     }
-    
-    
-    // MARK - UICollectionViewDataSource
-    
-    func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
+
+}
+
+// MARK: - UICollectionViewDataSource
+extension CollectionViewController: UICollectionViewDataSource {
+
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 50
     }
-    
-    
-    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return 8
     }
-    
-    
-    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        
+
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        // swiftlint:disable force_cast
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: contentCellIdentifier,
+                                                      for: indexPath) as! ContentCollectionViewCell
+
+        if indexPath.section % 2 != 0 {
+            cell.backgroundColor = UIColor(white: 242/255.0, alpha: 1.0)
+        } else {
+            cell.backgroundColor = UIColor.white
+        }
+
         if indexPath.section == 0 {
             if indexPath.row == 0 {
-                let dateCell : DateCollectionViewCell = collectionView .dequeueReusableCellWithReuseIdentifier(dateCellIdentifier, forIndexPath: indexPath) as! DateCollectionViewCell
-                dateCell.backgroundColor = UIColor.whiteColor()
-                dateCell.dateLabel.font = UIFont.systemFontOfSize(13)
-                dateCell.dateLabel.textColor = UIColor.blackColor()
-                dateCell.dateLabel.text = "Date"
-                
-                return dateCell
+                cell.contentLabel.text = "Date"
             } else {
-                let contentCell : ContentCollectionViewCell = collectionView .dequeueReusableCellWithReuseIdentifier(contentCellIdentifier, forIndexPath: indexPath) as! ContentCollectionViewCell
-                contentCell.contentLabel.font = UIFont.systemFontOfSize(13)
-                contentCell.contentLabel.textColor = UIColor.blackColor()
-                contentCell.contentLabel.text = "Section"
-                
-                if indexPath.section % 2 != 0 {
-                    contentCell.backgroundColor = UIColor(white: 242/255.0, alpha: 1.0)
-                } else {
-                    contentCell.backgroundColor = UIColor.whiteColor()
-                }
-                
-                return contentCell
+                cell.contentLabel.text = "Section"
             }
         } else {
             if indexPath.row == 0 {
-                let dateCell : DateCollectionViewCell = collectionView .dequeueReusableCellWithReuseIdentifier(dateCellIdentifier, forIndexPath: indexPath) as! DateCollectionViewCell
-                dateCell.dateLabel.font = UIFont.systemFontOfSize(13)
-                dateCell.dateLabel.textColor = UIColor.blackColor()
-                dateCell.dateLabel.text = String(indexPath.section)
-                if indexPath.section % 2 != 0 {
-                    dateCell.backgroundColor = UIColor(white: 242/255.0, alpha: 1.0)
-                } else {
-                    dateCell.backgroundColor = UIColor.whiteColor()
-                }
-                
-                return dateCell
+                cell.contentLabel.text = String(indexPath.section)
             } else {
-                let contentCell : ContentCollectionViewCell = collectionView .dequeueReusableCellWithReuseIdentifier(contentCellIdentifier, forIndexPath: indexPath) as! ContentCollectionViewCell
-                contentCell.contentLabel.font = UIFont.systemFontOfSize(13)
-                contentCell.contentLabel.textColor = UIColor.blackColor()
-                contentCell.contentLabel.text = "Content"
-                if indexPath.section % 2 != 0 {
-                    contentCell.backgroundColor = UIColor(white: 242/255.0, alpha: 1.0)
-                } else {
-                    contentCell.backgroundColor = UIColor.whiteColor()
-                }
-                
-                return contentCell
+                cell.contentLabel.text = "Content"
             }
         }
+
+        return cell
     }
+
 }
 
+// MARK: - UICollectionViewDelegate
+extension CollectionViewController: UICollectionViewDelegate {
+
+}
