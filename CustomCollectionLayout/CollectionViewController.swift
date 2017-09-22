@@ -70,6 +70,22 @@ extension CollectionViewController: UICollectionViewDataSource {
 
 }
 
+extension CollectionViewController: CustomCollectionViewLayoutDelegate {
+    
+    func collectionView(_ collectionView: UICollectionView, widthOfColumn column: Int) -> CGFloat {
+        return 90
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, heightOfSection section: Int) -> CGFloat {
+        return 48
+    }
+    
+    func numberOfColumns(in collectionView: UICollectionView) -> Int {
+        return 8
+    }
+    
+}
+
 // MARK: - UICollectionViewDelegate
 extension CollectionViewController: UICollectionViewDelegate {
 
