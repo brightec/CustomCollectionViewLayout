@@ -51,13 +51,13 @@ class CustomCollectionViewLayout: UICollectionViewLayout {
                 }
 
                 let attributes = layoutAttributesForItem(at: IndexPath(item: item, section: section))!
-                if section == 0 {
+                if shouldPinFirstRow && section == 0 {
                     var frame = attributes.frame
                     frame.origin.y = collectionView.contentOffset.y
                     attributes.frame = frame
                 }
 
-                if item == 0 {
+                if shouldPinFirstColumn && item == 0 {
                     var frame = attributes.frame
                     frame.origin.x = collectionView.contentOffset.x
                     attributes.frame = frame
